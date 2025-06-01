@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+
+void input(char situation[5][7]);
+void countpatients(char situation[5][7], int& stable, int& critical, int& recoverd);
+void criticalcount(char situation[5][7], int cdays[]);
+void disply(int stable, int critical, int recoverd, int cdays[]);
+
+int main() {
+    char status[5][7];                     
+    int stable, critical, recovered;
+    int criticalDays[5];                  
+
+    input(status);
+    countpatients(status, stable, critical, recovered);
+    criticalcount(status, criticalDays);
+    disply(stable, critical, recovered, criticalDays);
+
+    return 0;
+}
+
+void input(char situation[5][7]) {
+    cout << "Enter situation of patient (S = Stable, C = Critical, R = Recovered):\n";
+    for (int i = 0; i < 5; i++) {
+        cout << "Patient " << i + 1 << ":\n";
+        for (int j = 0; j < 7; j++) {
+            cout << "  Day " << j + 1 << ": ";
+            cin >> situation[i][j];
+        }
+    }
+}
+
+void countpatients(char situation[5][7], int& stable, int& critical, int& recoverd) {
+    stable = 0;
+    critical = 0;
+    recoverd = 0;
+
+    for (int i = 0; i < 5; i++) {        
+        for (int j = 0; j < 7; j++) {
+            char ch = situation[i][j];
+            if (ch == 'S' || ch == 's')
+                stable++;
+            else if (ch == 'C' || ch == 'c')
+                critical++;
+            else if (ch == 'R' || ch == 'r') 
+                recoverd++;
+        }
+    }
+}
+
+void criticalcount(char situation[5][7], int cdays[]) { 
+    for (int i = 0; i < 5; i++) {
+        cdays[i] = 0;
+        for (int j = 0; j < 7; j++) {
+            if (situation[i][j] == 'C' || situation[i][j] == 'c') {
+                cdays[i]++;
+            }
+        }
+    }
+}
+
+void disply(int stable, int critical, int recoverd, int cdays[]) {
+    cout << "\nRecord of patients:\n";
+    cout << "Stable days   : " << stable << endl;
+    cout << "Critical days : " << critical << endl;
+    cout << "Recovered days: " << recoverd << endl;
+
+    cout << "\nCritical Days Per Patient:\n";
+    for (int i = 0; i < 5; i++) { 
+        cout << "Patient " << i + 1 << ": " << cdays[i] << " day(s) in critical condition.\n";
+    }
+}
